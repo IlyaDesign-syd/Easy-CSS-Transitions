@@ -1,18 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
-    frame: 1
-}
-
 export const frameSlice = createSlice({
-    name: 'currentFrame',
-    initialState,
+    name: 'frame',
+    initialState: {
+        hovered: 1
+    },
     reducers: {
-        'setFrame': (action) => {state.frame = action.payload},
-        'increment': (state) => {state.frame = state.frame + 1}
+        setFrame: (state, action) => {state.hovered = action.payload}
     }
 })
 
-export const {setFrame, increment} = frameSlice.actions
-export default frameSlice.reducer 
-
+export const {setFrame} = frameSlice.actions;
+export default frameSlice.reducer;
