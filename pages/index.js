@@ -9,8 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 export default function Home() {
   //Timeline aplication parent, containing state of the keyframes and animation.
   const frames = [ ...Array(100).keys() ].map( i => i+1);
-  const hoveredFrame = useSelector((state) => state.currentFrame.value)
-  const setFrame = useDispatch({type: 'setFrame'})
+  const hoveredFrame = useSelector((state) => state.frame.frame)
   
   return (
     <div>

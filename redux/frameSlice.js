@@ -1,17 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    value: 1
+    frame: 1
 }
 
 export const frameSlice = createSlice({
     name: 'currentFrame',
     initialState,
     reducers: {
-        'setFrame': (action) => {state.value = action.payload},
-        'increment': (state) => {state.value = state.value + 1}
+        'setFrame': (action) => {state.frame = action.payload},
+        'increment': (state) => {state.frame = state.frame + 1}
     }
 })
 
 export const {setFrame, increment} = frameSlice.actions
 export default frameSlice.reducer 
+

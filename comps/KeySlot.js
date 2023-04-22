@@ -1,23 +1,24 @@
 import styles from '../styles/Home.module.css';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { setFrame, increment } from '../redux/frameSlice';
+//Issue: duplicate name for setFrame. Possible cause for previous error with "plain objects"with action.payload
+//import { setFrame, increment } from '../redux/frameSlice';
+import { setFrame } from '../redux/frame.action';
 
 const KeySlot = (props) => {
-  const [frameShows, setFrame] = useState(false)
+  const [frameShows, setFrameShows] = useState(false)
   const dispatch = useDispatch();
 
-  const myFrame = props.frameNumber
-
   const handleHover = () => {
-    console.log(`hovered over: ${props.frameNumber}`)
-    dispatch(setFrame(3))
-    setFrame(true)
+    dispatch(setFrame(props.frameNumber))
+    setFrameShows(true)
   }
+
     return(
       <div className={styles.keyFrame}
         onMouseEnter={() => handleHover()} 
-        onMouseLeave={() => setFrame(false)}>
+        onMouseLeave={() => setFrameShows(false)}
+        >
 
         {props.frameNumber == 1 ? (
           <div className={styles.keyDot}></div>
