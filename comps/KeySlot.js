@@ -12,24 +12,14 @@ const KeySlot = (props) => {
     setFrameShows(true)
   }
 
-    return(
-      <div className={styles.keyFrame}
-        onMouseEnter={() => handleHover()} 
-        onMouseLeave={() => setFrameShows(false)}
-        > 
+  return(
+    <div className={styles.keyFrame}
+      onMouseEnter={() => handleHover()} 
+      onMouseLeave={() => setFrameShows(false)}> 
 
-        {props.frameNumber == 1 ? (
-          <div className={styles.keyDot}></div>
-        ) : (
-          ""
-        )}
-        
-        <div className={styles.popKey} 
-            style={{display: frameShows ? 'block' : 'none'}}>
-              { ' frame selected'}
-        </div>
-      </div>
-    )
-  }
+      {props.frameNumber == 1 ? <div className={styles.keyDot}></div> : ""}
+    </div>
+  )
+}
 
-  export default KeySlot
+export default KeySlot

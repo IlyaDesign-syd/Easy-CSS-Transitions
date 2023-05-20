@@ -7,10 +7,22 @@
   align-items: center;
 }
 
+/*
+====  TIMELINE ELEMENTS ===
+    - Timeline Container (grid)
+    - Keyframes (grid)
+    - Key number display
+*/
+
 .hugeLightText {
   color: rgb(180, 180, 180);
   font-size: 6rem;
   display: inline-block;
+  will-change: opacity;
+}
+
+.hugeLightTextFade {
+  transition: opacity 1s ease-in-out;
 }
 
 .timelineContainer {
@@ -28,11 +40,11 @@
 }
 
 .keyFrame {
-  /*background-color: var(--primary-color);*/
-  border: 2px solid var(--primary-color);
+  background-color: var(--primary-color);
+  /*border: 1px solid var(--action-color);*/
   border-radius: 0.3rem;
   display: grid;
-  grid-template-rows: 3rem repeat(6, 1fr);  
+  grid-template-rows: 3rem repeat(6, 1fr);
   padding: 0.1rem;
 }
 
@@ -52,8 +64,8 @@
   transform: matrix(-2px, -4px);
   width: 7%;
   border-bottom: 1.2rem solid var(--secondary-color);
-	border-left: 0.1rem solid transparent;
-	border-right: 0.1rem solid transparent;
+  border-left: 0.1rem solid transparent;
+  border-right: 0.1rem solid transparent;
 }
 
 .keyFrame:nth-child(1),
@@ -63,20 +75,15 @@
   border: var(--primary-color) 1px solid;
 }
 
-/*
-@media (max-width: 600px) {
-  .grid {
-    width: 100%;
-    flex-direction: column;
-  }
+.stageContainer {
+  background-color: var(--secondary-color);
+  border-radius: 2em;
 }
-*/
 
 @media screen and (max-width: 890px) {
   .timelineContainer {
     grid-template-rows: repeat(2, 1fr);
     max-width: 460px;
-    min-width:460px;
+    min-width: 460px;
   }
 }
-

@@ -1,21 +1,51 @@
 import KeySlot from '../comps/KeySlot';
 import styles from '../styles/Home.module.css';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import { useSelector } from 'react-redux';
 
 export default function Home() {
-  //Timeline aplication parent, containing state of the keyframes and animation.
-  const frames = [ ...Array(100).keys() ].map( i => i+1);
+  //Timeline component containing hoverable keyframes  
+  const frameText = useRef(null);
+  // TO DO--->>> CREATE separate component for the hovered frame <<<<---
   const hoveredFrame = useSelector((state) => state.frame.hovered)
+
+  //Resets the timer every time the user hovers over another frame, which displays the "frame hover" number
+  useEffect(() => {
+    frameText.current.style.visibility = 'visible';
+    frameText.current.style.opacity = 1;
+
+    //Add fade out animation after delay
+    const hideFrameText = setTimeout(() => {
+      frameText.current.style.transition = "opacity 1s ease-in";
+      frameText.current.style.opacity = 0;
+      
+      //Set display to false after end of animation
+      frameText.current.addEventListener('transitionend', () => {
+        frameText.current.style.transition = "none"
+        frameText.current.style.visibility = 'hidden';
+      })
+    }, 2000)
+
+    return () => {
+      clearTimeout(hideFrameText);
+    }
+  }, [hoveredFrame])
 
   return (
     <div>
-    <h1>CSS Transitions with Ease</h1>
-    {/*TIME-LINE container containing 100 frame components-------*/}
+    <h1 className={styles.mainTitle}>CSS Transitions with Ease</h1>
+    {/*TIME-LINE container with 100 frame components-------*/}
     <div className={styles.timelineContainer}>
-      {frames.map(key => {return <KeySlot key={key} frameNumber={key}/>})}
+      {[...Array(100).keys()] .map(i => i+1) .map(key => {return <KeySlot key={key} frameNumber={key}/>})}
     </div>
-    <div className={styles.hugeLightText}>{hoveredFrame}</div>
+    {/*FRAME HOVER NUMBER DISPLAY large grey text diplaying hovered frame-------*/}Q
+    <div ref={frameText} className={styles.hugeLightText}>{(hoveredFrame)}</div>
+
+    {/*ANIMATION STAGE this is where the magic happens-------
+    Assumptions:
+    - The CSS element that is going to be animated will have position of 'absolute'
+    */}
+
     </div>  
   )
 }
