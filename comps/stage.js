@@ -38,26 +38,27 @@ ANIMATION METHODS EXPLAINED: (Note - For simplicity sake, I will start with the 
         - Does not require additional UI                             - Requires editing more frames when modifying animation
         - More popular with traditional 2D animation tools
     */
+   //Use the hover state to test out animation interpolation:
     const hoveredFrame = useSelector(state => state.frame.hovered)
     const canvasRef = useRef(null)
-    //As an experiment, set the animation based on the current hovered frame (testing purposes only)
-    useEffect(() => {
-    const canvas = canvasRef.current;
-    const context = canvas.getContext('2d');
-
-    //Square onbject (will need to move to store later):
+    //Square object (will need to move to store later):
     const elementFrames = new Map();
     elementFrames.set(1, {position: [0, 0], scale: [1, 1], rotation: 0, colour: "green"})
     elementFrames.set(24, {position: [20, 0], scale: [1, 1], rotation: 0, colour: "green"})
     elementFrames.set(60, {position: [23, 10], scale: [1, 1], rotation: 0, colour: "green"})
     elementFrames.set(72, {position: [0, 0], scale: [1, 1], rotation: 0, colour: "green"})
 
-    
-    //Get background colour dynamically by referencing the CSS variable
-    const secondaryColour = window.getComputedStyle(document.querySelector("html")).getPropertyValue("--secondary-color")
-    // Set canvas background color
-    context.fillStyle = secondaryColour;
-    context.fillRect(0, 0, canvas.width/4, canvas.height/4);
+    //As an experiment, set the animation based on the current hovered frame (testing purposes only)
+    useEffect(() => {
+        //To do next: create an alogirthm, which checks the current frame, gets the two frames it's in between, and calculates each parameter value based on position between frames
+        const canvas = canvasRef.current;
+        const context = canvas.getContext('2d');
+        
+        //Get background colour dynamically by referencing the CSS variable
+        const secondaryColour = window.getComputedStyle(document.querySelector("html")).getPropertyValue("--secondary-color")
+        // Set canvas background color
+        context.fillStyle = secondaryColour;
+        context.fillRect(0, 0, canvas.width/4, canvas.height/4);
     }, [hoveredFrame])
     return (
     <div>
