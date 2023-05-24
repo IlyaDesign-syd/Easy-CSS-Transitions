@@ -1,3 +1,6 @@
+.appContainer {
+  margin: 0 3em 0 3em
+}
 .container {
   min-height: 100vh;
   padding: 0 0.5rem;
@@ -11,7 +14,7 @@
 ====  TIMELINE ELEMENTS ===
     - Timeline Container (grid)
     - Keyframes (grid)
-    - Key number display
+    - Key number display (huge light text)
 */
 
 .hugeLightText {
@@ -78,12 +81,15 @@
 .stageContainer {
   background-color: var(--secondary-color);
   border-radius: 2em;
+  width: 40%
 }
 
-@media screen and (max-width: 890px) {
+
+/* If the window width is below 930px, split the timeline into two rows to fit screen */
+@media screen and (max-width: 930px) {
   .timelineContainer {
     grid-template-rows: repeat(2, 1fr);
-    max-width: 460px;
-    min-width: 460px;
+    grid-template-columns: repeat(50, 1fr);
+    max-width: 600px;min-width: 500px;
   }
 }

@@ -1,6 +1,9 @@
+//Components + assets:
 import KeySlot from '../comps/KeySlot';
+import Stage from '../comps/Stage';
 import styles from '../styles/Home.module.css';
-import React, {useEffect, useState, useRef} from 'react';
+//React and Redux Libraries:
+import React, {useEffect, useRef} from 'react';
 import { useSelector } from 'react-redux';
 
 export default function Home() {
@@ -32,20 +35,21 @@ export default function Home() {
   }, [hoveredFrame])
 
   return (
-    <div>
+    <div className={styles.appContainer}>
     <h1 className={styles.mainTitle}>CSS Transitions with Ease</h1>
     {/*TIME-LINE container with 100 frame components-------*/}
     <div className={styles.timelineContainer}>
       {[...Array(100).keys()] .map(i => i+1) .map(key => {return <KeySlot key={key} frameNumber={key}/>})}
     </div>
-    {/*FRAME HOVER NUMBER DISPLAY large grey text diplaying hovered frame-------*/}Q
+
+    {/*FRAME HOVER NUMBER DISPLAY large grey text diplaying hovered frame-------*/}
     <div ref={frameText} className={styles.hugeLightText}>{(hoveredFrame)}</div>
 
     {/*ANIMATION STAGE this is where the magic happens-------
     Assumptions:
     - The CSS element that is going to be animated will have position of 'absolute'
     */}
-
+    <Stage></Stage>
     </div>  
   )
 }
