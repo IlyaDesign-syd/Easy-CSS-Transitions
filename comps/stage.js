@@ -5,11 +5,19 @@ import { useSelector } from 'react-redux';
 const Stage = () => {
 /*TO CREATE:
         
-        1. Square object - size, position, rotation, colour and scale.
-        2. Eventually this should be contained in the store - create the square object as a map against existing keyframes
+        1. Square parameters object - size, position, rotation, colour and scale.
+        2. Create the square object as a map against existing keyframes (start with local var and then extend to store)
         3. Ability to play animation based on object properties
+            --> Create "current active frame" variable, temporarily as current component state (for testing play/pause functionality"))
+            --> Create interpolation algorithm (function running at each frame returning calculated object properties): 
+                - Check if on active keyframe (no interpolation required -> get properties with the keyframe using map(frame))
+                - Check if only 1 frame present -> simply return as object will be in default position
+                - Otherwise, check position of previous keyframe, the next keyframe and interpolate all properties relative to current frame position
+            --> Test interpolation by hard-coding keyframes and re-render cube everytime the hoverkey changes
+            --> Add "isPlaying" flag, and increment current keyframe with timeOut based on FPS, if true
         4. Update store to have "current active frame"
         5. This also needs to be updated in the timeline component - there needs to be a "pointer" UI to current keyframe
+------------------------------------------------------------------------------------------------------------------------------------
 
 ANIMATION METHODS EXPLAINED: (Note - For simplicity sake, I will start with the second animation method (read below)
         There are two approaches to managing the animation based on keyframes:
@@ -48,9 +56,23 @@ ANIMATION METHODS EXPLAINED: (Note - For simplicity sake, I will start with the 
     elementFrames.set(60, {position: [23, 10], scale: [1, 1], rotation: 0, colour: "green"})
     elementFrames.set(72, {position: [0, 0], scale: [1, 1], rotation: 0, colour: "green"})
 
+    const interpolateFrame = (activeFrame) => {
+        `-------------------------
+        Interpolation algorithm (return calculated object properties): 
+        1) Check if only 1 frame present -> simply return as object will be in default position
+        - Otherwise, check position of previous keyframe, the next keyframe and interpolate all properties relative to current frame position`
+        if(elementFrames.size === 1) return elementFrames.values().next().value
+
+        //Check if on active keyframe (no interpolation required -> get properties with the keyframe using map(frame))
+        if(elementFrames.get(activeFrame)) return elementFrames.get(activeFrame);
+
+
+
+    }
     //As an experiment, set the animation based on the current hovered frame (testing purposes only)
     useEffect(() => {
         //To do next: create an alogirthm, which checks the current frame, gets the two frames it's in between, and calculates each parameter value based on position between frames
+
         const canvas = canvasRef.current;
         const context = canvas.getContext('2d');
         
