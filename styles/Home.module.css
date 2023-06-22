@@ -80,7 +80,7 @@
 
 .stageContainer {
   background-color: var(--secondary-color);
-  border-radius: 2em;
+  border-radius: 1em;
   width: 40%
 }
 

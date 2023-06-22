@@ -49,42 +49,89 @@ ANIMATION METHODS EXPLAINED: (Note - For simplicity sake, I will start with the 
    //Use the hover state to test out animation interpolation:
     const hoveredFrame = useSelector(state => state.frame.hovered)
     const canvasRef = useRef(null)
+    const canvasWidth = 1200;
+    const canvasHeight = 900;
     //Square object (will need to move to store later):
     const elementFrames = new Map();
-    elementFrames.set(1, {position: [0, 0], scale: [1, 1], rotation: 0, colour: "green"})
-    elementFrames.set(24, {position: [20, 0], scale: [1, 1], rotation: 0, colour: "green"})
-    elementFrames.set(60, {position: [23, 10], scale: [1, 1], rotation: 0, colour: "green"})
+    elementFrames.set(1, {position: [0, 0], scale: [1, 12], rotation: 0, colour: "green"})
+    elementFrames.set(24, {position: [20, 0], scale: [13, 1], rotation: 0, colour: "green"})
+    elementFrames.set(60, {position: [23, 10], scale: [12, 1], rotation: 0, colour: "green"})
     elementFrames.set(72, {position: [0, 0], scale: [1, 1], rotation: 0, colour: "green"})
 
+    //Return interpolated object properties
     const interpolateFrame = (activeFrame) => {
-        `-------------------------
-        Interpolation algorithm (return calculated object properties): 
-        1) Check if only 1 frame present -> simply return as object will be in default position
-        - Otherwise, check position of previous keyframe, the next keyframe and interpolate all properties relative to current frame position`
-        if(elementFrames.size === 1) return elementFrames.values().next().value
-
-        //Check if on active keyframe (no interpolation required -> get properties with the keyframe using map(frame))
+        `TO DO: Test all edge cases + working scenarios`
+        //Null or invalid target frame:
+        if(!activeFrame || activeFrame < 1 || activeFrame > 100) {
+            console.log("Invalid target frame!"); 
+            return;
+        }
+        //Check if on active keyframe (no interpolation required) -> most efficient
+        console.log(`you called function interpolateFrame + ${typeof interpolateFrame}`)
         if(elementFrames.get(activeFrame)) return elementFrames.get(activeFrame);
 
-
-
+        //Check if only 1 frame present -> simply return as object will be in default position
+        if(elementFrames.size === 1) return elementFrames.values().next().value
+            
+        //Otherwise, check position of previous keyframe, the next keyframe and interpolate all properties relative to current frame position
+        
+        //Iterate the entire keyframe map to find proceeding and succeeding frame
+        let keyPrev = -1;
+        let keyNext = 999;
+        for (const [key, value] of elementFrames) { 
+            //Smallest existing key number greater than current frame:
+            if(key > activeFrame && key < keyNext) keyNext = key
+            //Opposite to the above:
+            if(key < activeFrame && key > keyPrev) keyPrev = key
+        }
+        //Handles having no next/previous key
+        if(keyNext === 999) {
+            keyNext = keyPrev;
+        } else if(keyPrev === -1) {
+            keyPrev = keyNext
+        }
+        console.log(`${keyPrev} and ${keyNext}`)
+        
+        //Using prev and next keyframes, interpolate based on current frame:
+        const prevFrame = elementFrames.get(keyPrev)
+        const nextFrame = elementFrames.get(keyNext)
+        //Get value between 0 and 1 based on current frame relative to prev and current frames
+        const length = keyNext - keyPrev
+        const point = activeFrame - keyPrev
+        //Frac (value 0 - 1)
+        const frac = point/length     
+        const lerp = (x, y) => {return x * (1 - frac) + y * frac};
+        
+        let interpolatedFrame = {};
+        `TO DO: Reduce code redundancy, and make properties more dynamic - also include interp colour`
+        
+        interpolatedFrame.position = [lerp(prevFrame.position[0], nextFrame.position[0]), 
+                                lerp(prevFrame.position[1], nextFrame.position[1])];
+        interpolatedFrame.scale = [lerp(prevFrame.scale[0], nextFrame.scale[0]), 
+                                lerp(prevFrame.scale[1], nextFrame.scale[1])];
+        interpolatedFrame.rotation = lerp(prevFrame.rotation, nextFrame.rotation)
+        console.log(`interpolated: ${interpolatedFrame.position}`)
+        return interpolatedFrame
     }
-    //As an experiment, set the animation based on the current hovered frame (testing purposes only)
+    //--> As an experiment, set the animation based on the current hovered frame (testing purposes only)
     useEffect(() => {
         //To do next: create an alogirthm, which checks the current frame, gets the two frames it's in between, and calculates each parameter value based on position between frames
-
         const canvas = canvasRef.current;
         const context = canvas.getContext('2d');
-        
+
         //Get background colour dynamically by referencing the CSS variable
         const secondaryColour = window.getComputedStyle(document.querySelector("html")).getPropertyValue("--secondary-color")
-        // Set canvas background color
         context.fillStyle = secondaryColour;
-        context.fillRect(0, 0, canvas.width/4, canvas.height/4);
+
+        //Default cube
+        let currentFrameProperties = interpolateFrame(hoveredFrame)
+        context.fillStyle = "yellow";
+
+        context.fillRect(currentFrameProperties.position[0], currentFrameProperties.position[0], currentFrameProperties.scale[0], currentFrameProperties.scale[1]);
     }, [hoveredFrame])
     return (
     <div>
-    <canvas ref={canvasRef} width={100} height={60} className={styles.stageContainer} />
+    <canvas ref={canvasRef} width={canvasWidth} height={canvasHeight} className={styles.stageContainer} />
     </div>
     )
 }
