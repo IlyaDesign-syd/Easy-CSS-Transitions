@@ -16,7 +16,6 @@ const KeySlot = (props) => {
     <div className={styles.keyFrame}
       onMouseEnter={() => handleHover()} 
       onMouseLeave={() => setFrameShows(false)}> 
-
       {props.frameNumber == 1 ? <div className={styles.keyDot}></div> : ""}
     </div>
   )
