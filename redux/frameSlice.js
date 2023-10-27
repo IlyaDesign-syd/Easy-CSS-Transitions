@@ -42,6 +42,6 @@ export const animationSlice = createSlice({
         setFrame: (state, action) => {state.hovered = action.payload}
     }
 })
-//test actions...
+//test actions......
 export const {setFrame} = frameSlice.actions;
 export default frameSlice.reducer;
