@@ -131,7 +131,7 @@ const Stage = () => {
 
     return (
         <div>
-            {/*<canvas ref={canvasRef} width={canvasWidth} height={canvasHeight} className={styles.stageContainer} />*/}
+            {<canvas ref={canvasRef} width={canvasWidth} height={canvasHeight} className={styles.stageContainer} />}
             <div className={styles.stageContainer}>
                 <div className={styles.animElement}></div>
             </div>
