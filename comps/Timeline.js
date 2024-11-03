@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 const Timeline = () => {
     return (
         <>
-        <div className={styles.timelineContainer}>
+        <div data-testid="Timeline" className={styles.timelineContainer}>
             {[...Array(100).keys()].map(i => i + 1).map(key => { return <KeySlot key={key} frameNumber={key} /> })}
         </div>
         </>

@@ -11,6 +11,10 @@ TO DO: active frame should be changed inside the timeline component, based on wh
 ideally also it should be draggable for smoother UI interaction
 */
 
+/* 
+Frame slice takes care of main timeline operations, such as creating, deleting and active frames
+and mapping object properties against the timeline frames
+*/
 export const frameSlice = createSlice({
     name: 'frame',
     initialState: {
@@ -33,6 +37,8 @@ export const frameSlice = createSlice({
 })
 
 
+/* 
+*/
 export const animationSlice = createSlice({
     name: 'animation',
     initialState: {

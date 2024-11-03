@@ -93,6 +93,17 @@
   width: 40%
 }
 
+/*========================
+  ANIMATION UI ELEMENTS:
+- Animation Object
+- CTAs for modifying keys
+- Scrollers, custom buttons for properties
+===========================================*/
+
+.animElement {
+  background-color: var(--primary-color);
+  width: 145px;
+}
 
 /* If the window width is below 930px, split the timeline into two rows to fit screen */
 @media screen and (max-width: 930px) {

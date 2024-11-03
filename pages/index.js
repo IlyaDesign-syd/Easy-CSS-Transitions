@@ -35,17 +35,17 @@ const Home = () => {
 
   return (
     <div className={styles.appContainer}>
-    <h1 className={styles.mainTitle}>CSS Transitions with Ease</h1>
+    <h1 data-testid="main-title" className={styles.mainTitle}>CSS Transitions with Ease</h1>
 
     {/*TIME-LINE container with 100 frame components-------*/}
-    <Timeline></Timeline>
+    <Timeline ></Timeline>
 
     {/*FRAME HOVER NUMBER DISPLAY large grey text diplaying hovered frame-------*/}
-    <div ref={frameText} className={styles.hugeLightText}>{(hoveredFrame)}</div>
+    <div data-testid="frame-hover" ref={frameText} className={styles.hugeLightText}>{(hoveredFrame)}</div>
 
     {/*ANIMATION STAGE this is where the magic happens
     Assumption: Target animation object will have position of 'absolute'*/}
-    <Stage></Stage>
+    <Stage ></Stage>
     </div>  
   )
 }
