@@ -9,7 +9,11 @@ you can simply create animations in seconds using this animator, and convert the
 
 To Do:
 
-- Add keyframe/object attributes map to store
-- Add current key pointer (for animation and selecting keyframes)
-- Update above functionality in timeline and stage components (including UI)
-This is a NextJS project, using Redux for state management.
+- Complete POC for canva object
+- Start working on animating element
+- Improve DRY - create utilities for interpolation
+- Shift placeholder animation into redux state
+- Remove magic numbers
+- Install Lint
+- Install TS
+- Type animation data
