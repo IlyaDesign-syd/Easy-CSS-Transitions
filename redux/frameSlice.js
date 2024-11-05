@@ -6,6 +6,13 @@ animationMap.set(1, {position: [0, 0], scale: [1, 12], rotation: 0, colour: "gre
 animationMap.set(24, {position: [20, 0], scale: [13, 1], rotation: 0, colour: "green"})
 animationMap.set(60, {position: [23, 10], scale: [12, 1], rotation: 0, colour: "green"})
 animationMap.set(72, {position: [0, 0], scale: [1, 1], rotation: 0, colour: "green"})
+
+let animationObject = {
+    1: {position: [0, 0], scale: [1, 12], rotation: 0, colour: "green"},
+    24: {position: [20, 0], scale: [13, 1], rotation: 0, colour: "green"},
+    60: {position: [23, 10], scale: [12, 1], rotation: 0, colour: "green"},
+    72: {position: [0, 0], scale: [1, 1], rotation: 0, colour: "green"}
+};
 /*
 TO DO: active frame should be changed inside the timeline component, based on which key the user clicks on,
 ideally also it should be draggable for smoother UI interaction
@@ -18,9 +25,9 @@ and mapping object properties against the timeline frames
 export const frameSlice = createSlice({
     name: 'frame',
     initialState: {
-        hovered: 1, //Frame hovered by user
-        active: 1, //Current frame pointed in animation
-        animationMap
+        hovered: 1, // Frame hovered by user
+        active: 1, // Current frame pointed in animation
+        animationMap: animationObject // Timeline animation data
     },
     reducers: {
         setFrame: (state, action) => {state.hovered = action.payload},

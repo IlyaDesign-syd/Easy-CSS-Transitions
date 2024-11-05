@@ -6,16 +6,16 @@ export const interpolateFrame = (activeFrame, elementFrames) => {
     if (!activeFrame || activeFrame < 1 || activeFrame > 100) throw new Error('Target frame is invalid!')
 
     // Return hovered frame if it equals to existing keyframe (no interpolation required)
-    if (elementFrames.get(activeFrame)) return elementFrames.get(activeFrame);
+    if (elementFrames[activeFrame]) return elementFrames[activeFrame];
 
     // Return without interpolation if only 1 frame present
-    if (elementFrames.size === 1) return elementFrames.values().next().value
+    if (Object.values(elementFrames).length === 1) return Object.values(elementFrames)[0];
 
     // Go through all existing key frames to determine two closest surrounding keys to activeFrame
     let keyPrev = -1;
     let keyNext = 999;
     
-    const sortedKeys = Array.from(elementFrames.keys()).sort((a, b) => a - b);
+    const sortedKeys = Array.from(Object.keys(elementFrames)).sort((a, b) => a - b);
 
     // Get previous neighbouring keyframe to active key
     for(let i = 0; i < sortedKeys.length; i++) {
@@ -24,11 +24,9 @@ export const interpolateFrame = (activeFrame, elementFrames) => {
         if(currKey > keyPrev) keyPrev = currKey
     }
 
-    console.log('prev key: ' + keyPrev)
-
     // If there are no keys coming before the active (hovered) key, return the first existing keyframe
     // This should not normally happen, assuming there's always the "first" keyframe, and no keys exist before
-    if(keyPrev === -1) return elementFrames.get(sortedKeys[0]);
+    if(keyPrev === -1) return elementFrames[sortedKeys[0]];
 
     // Get next neighbouring keyframe of active key
     for(let i = sortedKeys.length; i > 0; i--) {
@@ -36,16 +34,16 @@ export const interpolateFrame = (activeFrame, elementFrames) => {
         if(currKey <= activeFrame) break;
         if(currKey < keyNext) keyNext = currKey
     }
-    if(keyNext === 999) return elementFrames.get(keyPrev);
+    if(keyNext === 999) return elementFrames[keyPrev];
 
     // Handles having no next/previous key
     if (keyNext === keyPrev) {
-        return elementFrames.get(keyNext);
+        return elementFrames[keyNext];
     } 
 
     //Using prev and next keyframes, interpolate based on current frame:
-    const prevFrame = elementFrames.get(keyPrev);
-    const nextFrame = elementFrames.get(keyNext);
+    const prevFrame = elementFrames[keyPrev];
+    const nextFrame = elementFrames[keyNext];
 
     // To get interpolation, count activeFrame from it's preceeding keyframe (the point)
     // and divide by the total number of frames before and after active key frames.
@@ -56,7 +54,6 @@ export const interpolateFrame = (activeFrame, elementFrames) => {
 
     //Frac (value 0 - 1)
     const frac = point / frameAmount;
-    console.log('frameAmount ' + frameAmount + ' keyNext ' + keyNext + ' keyPrev ' + keyPrev);
     const lerp = (x, y) => { return x * (1 - frac) + y * frac };
 
     let interpolatedFrame = {};

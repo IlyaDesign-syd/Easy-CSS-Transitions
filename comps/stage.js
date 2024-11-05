@@ -8,11 +8,12 @@ import AnimElement from './animUI/AnimElement';
 ** Square object:
 *** TO DO: Move element frames into the store */
 
-const elementFrames = new Map();
-elementFrames.set(1, { position: [0, 0], scale: [1, 12], rotation: 0, colour: "green" })
-elementFrames.set(24, { position: [20, 0], scale: [13, 1], rotation: 0, colour: "green" })
-elementFrames.set(60, { position: [23, 10], scale: [12, 1], rotation: 0, colour: "green" })
-elementFrames.set(72, { position: [0, 0], scale: [1, 1], rotation: 0, colour: "green" })
+const elementFrames = {
+    1: {position: [0, 0], scale: [1, 12], rotation: 0, colour: "green"},
+    24: {position: [20, 0], scale: [13, 1], rotation: 0, colour: "green"},
+    60: {position: [23, 10], scale: [12, 1], rotation: 0, colour: "green"},
+    72: {position: [0, 0], scale: [1, 1], rotation: 0, colour: "green"}
+};
 
 const Stage = () => {
     /* TO CREATE:
@@ -64,7 +65,6 @@ const Stage = () => {
     const canvasWidth = 1200;
     const canvasHeight = 900;
     
-
     //Return interpolated object properties
     const interpolatedFrame = interpolateFrame(hoveredFrame, elementFrames);
     // console.log(interpolatedFrame)
@@ -76,21 +76,26 @@ const Stage = () => {
 
     useEffect(() => {
         context = canvasRef.current.getContext('2d').current;
-    }, [canvasRef])
+    }, [])
 
 
     // Whenever user hovers over a frame, calculate interpolation based on animation properties
     useEffect(() => {
         //Get background colour dynamically by referencing the CSS variable
+        if (!context) return;
+
         const secondaryColour = window.getComputedStyle(document.querySelector("html")).getPropertyValue("--secondary-color") || "#7b7b7b"
-        // context.fillStyle = secondaryColour;
         console.log('context:')
+        console.log(context)
+        context.fillStyle = secondaryColour;
+        
+        console.log(context.fillStyle)
   
         //Default square
         let currentFrameProperties = interpolateFrame(hoveredFrame,elementFrames)
-        // context.fillStyle = "yellow";
+        context.fillStyle = "yellow";
 
-        // context.fillRect(currentFrameProperties.position[0], currentFrameProperties.position[0], currentFrameProperties.scale[0], currentFrameProperties.scale[1]);
+        context.fillRect(currentFrameProperties.position[0], currentFrameProperties.position[0], currentFrameProperties.scale[0], currentFrameProperties.scale[1]);
     }, [hoveredFrame])
 
 
