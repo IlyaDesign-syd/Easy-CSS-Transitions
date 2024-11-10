@@ -1,5 +1,6 @@
+import { AnimProp, Position, Rotation, Scale } from "../types/element-properties";
 // Return interpolated object properties
-export const interpolateFrame = (activeFrame, elementFrames) => {
+export const interpolateFrame = (activeFrame: number, elementFrames: AnimProp[]) => {
     // TO DO: Test all edge cases + working scenarios
     
     // Invalid target frame should throw error
@@ -15,11 +16,11 @@ export const interpolateFrame = (activeFrame, elementFrames) => {
     let keyPrev = -1;
     let keyNext = 999;
     
-    const sortedKeys = Array.from(Object.keys(elementFrames)).sort((a, b) => a - b);
+    const sortedKeys = Array.from(Object.keys(elementFrames)).sort((a, b) => parseInt(a) - parseInt(b));
 
     // Get previous neighbouring keyframe to active key
     for(let i = 0; i < sortedKeys.length; i++) {
-        let currKey = sortedKeys[i]
+        let currKey = parseInt(sortedKeys[i])
         if(currKey >= activeFrame) break;
         if(currKey > keyPrev) keyPrev = currKey
     }
@@ -30,7 +31,7 @@ export const interpolateFrame = (activeFrame, elementFrames) => {
 
     // Get next neighbouring keyframe of active key
     for(let i = sortedKeys.length; i > 0; i--) {
-        let currKey = sortedKeys[i]
+        let currKey = parseInt(sortedKeys[i])
         if(currKey <= activeFrame) break;
         if(currKey < keyNext) keyNext = currKey
     }
@@ -54,15 +55,31 @@ export const interpolateFrame = (activeFrame, elementFrames) => {
 
     //Frac (value 0 - 1)
     const frac = point / frameAmount;
-    const lerp = (x, y) => { return x * (1 - frac) + y * frac };
+    const lerp = (x: number, y: number): number => { return x * (1 - frac) + y * frac };
 
-    let interpolatedFrame = {};
-    // TO DO: Reduce code redundancy, and make properties more dynamic - interpolate colour
-    interpolatedFrame.position = [lerp(prevFrame.position[0], nextFrame.position[0]),
-    lerp(prevFrame.position[1], nextFrame.position[1])];
-    interpolatedFrame.scale = [lerp(prevFrame.scale[0], nextFrame.scale[0]),
-    lerp(prevFrame.scale[1], nextFrame.scale[1])];
-    interpolatedFrame.rotation = lerp(prevFrame.rotation, nextFrame.rotation)
+    let interpolatedFrame: AnimProp = {
+        position: [0, 0],
+        scale: [0, 0],
+        rotation: 0,
+        colour: 'yellow'
+    };
+
+    const interpolatedPos: Position = [
+        lerp(prevFrame.position[0], nextFrame.position[0]),
+        lerp(prevFrame.position[1], nextFrame.position[1])
+    ];
+
+    const interpolatedScale: Scale = [
+        lerp(prevFrame.scale[0], nextFrame.scale[0]),
+        lerp(prevFrame.scale[1], nextFrame.scale[1])
+    ];
+
+    const interpolatedRot: Rotation = lerp(prevFrame.rotation, nextFrame.rotation);
+
+    // TODO: Reduce code redundancy, and make properties more dynamic - interpolate colour
+    interpolatedFrame.position = interpolatedPos;
+    interpolatedFrame.scale = interpolatedScale;
+    interpolatedFrame.rotation = interpolatedRot;
     
     return interpolatedFrame
 }

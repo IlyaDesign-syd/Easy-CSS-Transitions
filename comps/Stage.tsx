@@ -1,4 +1,3 @@
-import styles from '../styles/Home.module.css';
 import { interpolateFrame } from '../utils/interpolate';
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -93,7 +92,7 @@ const Stage = () => {
         context.fillStyle = secondaryColour;
         
         console.log(context.fillStyle)
-  
+
         //Default square
         let currentFrameProperties = interpolateFrame(hoveredFrame,elementFrames)
         context.fillStyle = "yellow";
@@ -104,7 +103,7 @@ const Stage = () => {
 
     return (
         <div data-test="Stage">
-            <canvas ref={canvasRef} width={canvasWidth} height={canvasHeight} className={styles.stageContainer} />
+            <canvas ref={canvasRef} width={canvasWidth} height={canvasHeight} className="stageContainer" />
             {/* <div className={styles.stageContainer}>
                 <AnimElement color={"yellow"}/>
             </div> */}
