@@ -2,11 +2,12 @@ import styles from '../styles/Home.module.css';
 import { interpolateFrame } from '../utils/interpolate';
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
 import AnimElement from './animUI/AnimElement';
 
 /* Testing values (placeholder animation data) 
 ** Square object:
-*** TO DO: Move element frames into the store */
+ TODO Move element frames into the store */
 
 const elementFrames = {
     1: {position: [0, 0], scale: [1, 12], rotation: 0, colour: "green"},
@@ -19,9 +20,9 @@ const Stage = () => {
     /* TO CREATE:
             
             1. (DONE) Square parameters object - size, position, rotation, colour and scale.
-            2. (PROGRESS) Create the square object as a map against existing keyframes (start with local var and then extend to store)
+            2. TODO Create the square object as a map against existing keyframes (start with local var and then extend to store)
             3. Ability to play animation based on object properties
-                --> Create variable for tracking current frame in animation (for testing play/pause functionality"))
+                TODO Create variable for tracking current frame in animation (for testing play/pause functionality"))
                 --> (DONE) Create interpolation algorithm (function running at each frame returning calculated object properties): 
                     - (DONE) Check if on active keyframe (no interpolation required -> get properties with the keyframe using map(frame))
                     - (DONE) Check if only 1 frame present -> simply return as object will be in default position
@@ -60,8 +61,8 @@ const Stage = () => {
             - More popular with traditional 2D animation tools
         */
     // Use the hover state to test out animation interpolation:
-    const hoveredFrame = useSelector(state => state.frame.hovered)
-    const canvasRef = useRef(null)
+    const hoveredFrame = useSelector<RootState>(state => state.frame.hovered)
+    const canvasRef = useRef<HTMLCanvasElement | null>(null)
     const canvasWidth = 1200;
     const canvasHeight = 900;
     
@@ -72,10 +73,12 @@ const Stage = () => {
     // --> As an experiment, set the animation based on the current hovered frame (testing purposes only)
     // TO DO: Reimplement stage using a div as a square, instead of a canvas component (due to resolution issues)
     // let {context, setContext} = useState()
-    let context = null;
+    let context: CanvasRenderingContext2D | null = null;
 
     useEffect(() => {
-        context = canvasRef.current.getContext('2d').current;
+        if (canvasRef === null || canvasRef.current === null) return;
+
+        context = canvasRef.current.getContext('2d');
     }, [])
 
 
@@ -83,8 +86,8 @@ const Stage = () => {
     useEffect(() => {
         //Get background colour dynamically by referencing the CSS variable
         if (!context) return;
-
-        const secondaryColour = window.getComputedStyle(document.querySelector("html")).getPropertyValue("--secondary-color") || "#7b7b7b"
+        const canvasElement= canvasRef.current!;
+        const secondaryColour = window.getComputedStyle(canvasElement).getPropertyValue("--secondary-color") || "#7b7b7b"
         console.log('context:')
         console.log(context)
         context.fillStyle = secondaryColour;
@@ -100,7 +103,7 @@ const Stage = () => {
 
 
     return (
-        <div data-testid="Stage">
+        <div data-test="Stage">
             <canvas ref={canvasRef} width={canvasWidth} height={canvasHeight} className={styles.stageContainer} />
             {/* <div className={styles.stageContainer}>
                 <AnimElement color={"yellow"}/>

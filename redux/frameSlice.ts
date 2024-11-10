@@ -19,13 +19,19 @@ let animationObject: AnimationObj = {
  * - Mapping object properties against the timeline frames
  */
 
+type FrameState = {
+    hovered: number,
+    active: number,
+    animationMap: AnimationObj,
+}
+
 export const frameSlice = createSlice({
     name: 'frame',
     initialState: {
         hovered: 1, // Frame hovered by user
         active: 1, // Current frame pointed in animation
         animationMap: animationObject // Timeline animation data
-    },
+    } as FrameState,
     reducers: {
         setFrame: (state, action) => {state.hovered = action.payload},
         setActive: (state, action) => {state.active = action.payload},
