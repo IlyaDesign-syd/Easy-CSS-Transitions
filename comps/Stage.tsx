@@ -3,12 +3,13 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import AnimElement from './animUI/AnimElement';
+import { AnimationObj, AnimProp } from '../types/element-properties';
 
 /* Testing values (placeholder animation data) 
 ** Square object:
  TODO Move element frames into the store */
 
-const elementFrames = {
+const elementFrames: AnimationObj = {
     1: {position: [0, 0], scale: [1, 12], rotation: 0, colour: "green"},
     24: {position: [20, 0], scale: [13, 1], rotation: 0, colour: "green"},
     60: {position: [23, 10], scale: [12, 1], rotation: 0, colour: "green"},
@@ -16,7 +17,7 @@ const elementFrames = {
 };
 
 const Stage = () => {
-    /* TO CREATE:
+    /* TODO:
             
             1. (DONE) Square parameters object - size, position, rotation, colour and scale.
             2. TODO Create the square object as a map against existing keyframes (start with local var and then extend to store)
@@ -60,7 +61,7 @@ const Stage = () => {
             - More popular with traditional 2D animation tools
         */
     // Use the hover state to test out animation interpolation:
-    const hoveredFrame = useSelector<RootState>(state => state.frame.hovered)
+    const hoveredFrame: number = useSelector<RootState, number>(state => state.frame.hovered)
     const canvasRef = useRef<HTMLCanvasElement | null>(null)
     const canvasWidth = 1200;
     const canvasHeight = 900;

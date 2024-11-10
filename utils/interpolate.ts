@@ -1,7 +1,9 @@
-import { AnimProp, Position, Rotation, Scale } from "../types/element-properties";
+import { AnimationObj, AnimProp, Position, Rotation, Scale } from "../types/element-properties";
+import { INVALID_PREV_FRAME, INVALID_NEXT_FRAME } from "../types/globals";
+
 // Return interpolated object properties
-export const interpolateFrame = (activeFrame: number, elementFrames: AnimProp[]) => {
-    // TO DO: Test all edge cases + working scenarios
+export const interpolateFrame = (activeFrame: number, elementFrames: AnimationObj) => {
+    // TODO: Test all edge cases + working scenarios
     
     // Invalid target frame should throw error
     if (!activeFrame || activeFrame < 1 || activeFrame > 100) throw new Error('Target frame is invalid!')
@@ -13,8 +15,8 @@ export const interpolateFrame = (activeFrame: number, elementFrames: AnimProp[])
     if (Object.values(elementFrames).length === 1) return Object.values(elementFrames)[0];
 
     // Go through all existing key frames to determine two closest surrounding keys to activeFrame
-    let keyPrev = -1;
-    let keyNext = 999;
+    let keyPrev = INVALID_PREV_FRAME;
+    let keyNext = INVALID_NEXT_FRAME;
     
     const sortedKeys = Array.from(Object.keys(elementFrames)).sort((a, b) => parseInt(a) - parseInt(b));
 
@@ -27,7 +29,7 @@ export const interpolateFrame = (activeFrame: number, elementFrames: AnimProp[])
 
     // If there are no keys coming before the active (hovered) key, return the first existing keyframe
     // This should not normally happen, assuming there's always the "first" keyframe, and no keys exist before
-    if(keyPrev === -1) return elementFrames[sortedKeys[0]];
+    if(keyPrev === INVALID_PREV_FRAME) return elementFrames[sortedKeys[0]];
 
     // Get next neighbouring keyframe of active key
     for(let i = sortedKeys.length; i > 0; i--) {
@@ -35,7 +37,7 @@ export const interpolateFrame = (activeFrame: number, elementFrames: AnimProp[])
         if(currKey <= activeFrame) break;
         if(currKey < keyNext) keyNext = currKey
     }
-    if(keyNext === 999) return elementFrames[keyPrev];
+    if(keyNext === INVALID_NEXT_FRAME) return elementFrames[keyPrev];
 
     // Handles having no next/previous key
     if (keyNext === keyPrev) {
