@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import AnimElement from './animUI/AnimElement';
 import { AnimationObj, AnimProp } from '../types/element-properties';
+import { CANVAS_WIDTH, CANVAS_HEIGHT } from '../types/globals';
 
 /* Testing values (placeholder animation data) 
 ** Square object:
@@ -63,38 +64,23 @@ const Stage = () => {
     // Use the hover state to test out animation interpolation:
     const hoveredFrame: number = useSelector<RootState, number>(state => state.frame.hovered)
     const canvasRef = useRef<HTMLCanvasElement | null>(null)
-    const canvasWidth = 1200;
-    const canvasHeight = 900;
-    
-    //Return interpolated object properties
-    const interpolatedFrame = interpolateFrame(hoveredFrame, elementFrames);
-    // console.log(interpolatedFrame)
 
-    // --> As an experiment, set the animation based on the current hovered frame (testing purposes only)
-    // TO DO: Reimplement stage using a div as a square, instead of a canvas component (due to resolution issues)
-    // let {context, setContext} = useState()
-    let context: CanvasRenderingContext2D | null = null;
+    // TODO: Reimplement stage using a div as a square, instead of a canvas component (due to resolution issues)
+    const [context, setContext] = useState<CanvasRenderingContext2D | null>(null);
 
     useEffect(() => {
-        if (canvasRef === null || canvasRef.current === null) return;
-
-        context = canvasRef.current.getContext('2d');
+        setContext(canvasRef.current.getContext('2d'));
     }, [])
 
-
-    // Whenever user hovers over a frame, calculate interpolation based on animation properties
+    // Whenever user hovers over a frame, calculate interpolation based on animation properties and re render square
     useEffect(() => {
-        //Get background colour dynamically by referencing the CSS variable
         if (!context) return;
+        context.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
         const canvasElement= canvasRef.current!;
         const secondaryColour = window.getComputedStyle(canvasElement).getPropertyValue("--secondary-color") || "#7b7b7b"
-        console.log('context:')
-        console.log(context)
+
         context.fillStyle = secondaryColour;
         
-        console.log(context.fillStyle)
-
-        //Default square
         let currentFrameProperties = interpolateFrame(hoveredFrame,elementFrames)
         context.fillStyle = "yellow";
 
@@ -104,7 +90,7 @@ const Stage = () => {
 
     return (
         <div data-test="Stage">
-            <canvas ref={canvasRef} width={canvasWidth} height={canvasHeight} className="stageContainer" />
+            <canvas ref={canvasRef} width={CANVAS_WIDTH} height={CANVAS_HEIGHT} className="stageContainer" />
             {/* <div className={styles.stageContainer}>
                 <AnimElement color={"yellow"}/>
             </div> */}
