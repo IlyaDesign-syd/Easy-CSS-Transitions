@@ -11,10 +11,10 @@ import { CANVAS_WIDTH, CANVAS_HEIGHT } from '../types/globals';
  TODO Move element frames into the store */
 
 const elementFrames: AnimationObj = {
-    1: {position: [0, 0], scale: [1, 12], rotation: 0, colour: "green"},
-    24: {position: [20, 0], scale: [13, 1], rotation: 0, colour: "green"},
-    60: {position: [23, 10], scale: [12, 1], rotation: 0, colour: "green"},
-    72: {position: [0, 0], scale: [1, 1], rotation: 0, colour: "green"}
+    1: {position: [0, 0], scale: [1200, 900], rotation: 0, colour: "green"},
+    24: {position: [20, 0], scale: [130, 10], rotation: 0, colour: "green"},
+    60: {position: [23, 10], scale: [120, 10], rotation: 0, colour: "green"},
+    72: {position: [0, 0], scale: [10, 10], rotation: 0, colour: "green"}
 };
 
 const Stage = () => {

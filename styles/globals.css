@@ -1,13 +1,15 @@
-.root-properties {
-    --primary-color: #1d1d1d;
-    --secondary-color: #7b7b7b;
-    --action-color: #ebb33b;
+/* globals.css */
+html {
+  font-size: 16px; 
 }
 
 :root {
   --primary-color: #1d1d1d;
   --secondary-color: #7b7b7b;
   --action-color: #ebb33b;
+  --size-xs: 0.2rem;
+  --size-sm: 0.4rem;
+  --size-md: 0.8rem;
 }
 
 html,

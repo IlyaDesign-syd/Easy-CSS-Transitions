@@ -1,3 +1,5 @@
+
+
 .appContainer {
   margin: 0 3em 0 3em;
 }
@@ -89,7 +91,7 @@
 }
 .stageContainer {
   background-color: var(--secondary-color);
-  border-radius: 1em;
+  border-radius: var(--size-md);
   width: 40%
 }
 
