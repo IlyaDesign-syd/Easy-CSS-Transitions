@@ -1,15 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { AnimationObj } from "../types/element-properties";
 
-//Default keyframes
+// Default keyframes
 let animationObject: AnimationObj = {
-    1: {position: [0, 0], scale: [1, 12], rotation: 0, colour: "green"},
-    24: {position: [20, 0], scale: [13, 1], rotation: 0, colour: "green"},
-    60: {position: [23, 10], scale: [12, 1], rotation: 0, colour: "green"},
-    72: {position: [0, 0], scale: [1, 1], rotation: 0, colour: "green"},
+    1: {position: [0, 0], scale: [100, 120], rotation: 0, colour: "green"},
+    24: {position: [200, 0], scale: [103, 100], rotation: 0, colour: "green"},
+    60: {position: [700, 100], scale: [102, 350], rotation: 0, colour: "green"},
+    72: {position: [450, 30], scale: [100, 10], rotation: 0, colour: "green"},
 };
 /**
- * TODO: Update the active frame within the timeline component based on the key 
+TODO: Update the active frame within the timeline component based on the key 
  * selected by the user instead of relying on hover actions (testing only).
  */
 

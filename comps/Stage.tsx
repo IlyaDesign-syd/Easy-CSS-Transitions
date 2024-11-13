@@ -6,17 +6,6 @@ import AnimElement from './animUI/AnimElement';
 import { AnimationObj, AnimAttributes } from '../types/element-properties';
 import { CANVAS_WIDTH, CANVAS_HEIGHT } from '../types/globals';
 
-/* Testing values (placeholder animation data) 
-** Square object:
- TODO Move element frames into the store */
-
-const elementFrames: AnimationObj = {
-    1: {position: [0, 0], scale: [1200, 900], rotation: 0, colour: "green"},
-    24: {position: [20, 0], scale: [130, 10], rotation: 0, colour: "green"},
-    60: {position: [23, 10], scale: [120, 10], rotation: 0, colour: "green"},
-    72: {position: [0, 0], scale: [10, 10], rotation: 0, colour: "green"}
-};
-
 const Stage = () => {
     /* TODO:
             
@@ -70,7 +59,7 @@ const Stage = () => {
     const [context, setContext] = useState<CanvasRenderingContext2D | null>(null);
 
     // TODO add a default animation property to globals, in case it renders before store initiates
-    const [animProp, setAnim] = useState<AnimAttributes>(null);
+    // const [animProp, setAnim] = useState<AnimAttributes>(null);
 
     useEffect(() => {
         setContext(canvasRef?.current?.getContext('2d'));
@@ -78,9 +67,10 @@ const Stage = () => {
 
     // Whenever user hovers over a frame, calculate interpolation based on animation properties and re render square
     useEffect(() => {
-        let currentFrameProperties = interpolateFrame(hoveredFrame, elementFrames);
-        setAnim(currentFrameProperties);
+        // setAnim(currentFrameProperties);
         if (!context) return;
+        let currentFrameProperties = interpolateFrame(hoveredFrame, animMap);
+        
         context.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
         const canvasElement= canvasRef.current!;
         const secondaryColour = window.getComputedStyle(canvasElement).getPropertyValue("--secondary-color") || "#7b7b7b"
@@ -91,15 +81,15 @@ const Stage = () => {
         context.fillStyle = "yellow";
 
         context.fillRect(currentFrameProperties.position[0], currentFrameProperties.position[0], currentFrameProperties.scale[0], currentFrameProperties.scale[1]);
-    }, [hoveredFrame])
+    }, [hoveredFrame, animMap])
 
 
     return (
         <div data-test="Stage">
-            {/* <canvas ref={canvasRef} width={CANVAS_WIDTH} height={CANVAS_HEIGHT} className="stageContainer" /> */}
-            <div className="stageContainer">
+            <canvas ref={canvasRef} width={CANVAS_WIDTH} height={CANVAS_HEIGHT} className="stageContainer" />
+            {/* <div className="stageContainer">
                 <AnimElement animProp={animProp} />
-            </div>
+            </div> */}
         </div>
     )
 }
