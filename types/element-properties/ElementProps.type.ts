@@ -4,7 +4,7 @@ export type Scale = [number, number];
 export type Rotation = number;
 export type Colour = string;
 
-export interface AnimProp {
+export interface AnimAttributes {
     position: Position,
     scale: Scale,
     rotation: Rotation;
@@ -12,5 +12,5 @@ export interface AnimProp {
 }
 
 export type AnimationObj = {
-    [key: number]: AnimProp;
+    [key: number]: AnimAttributes;
 };

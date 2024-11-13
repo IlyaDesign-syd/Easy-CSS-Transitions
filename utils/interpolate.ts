@@ -1,4 +1,4 @@
-import { AnimationObj, AnimProp, Position, Rotation, Scale } from "../types/element-properties";
+import { AnimationObj, AnimAttributes, Position, Rotation, Scale } from "../types/element-properties";
 import { INVALID_PREV_FRAME, INVALID_NEXT_FRAME } from "../types/globals";
 
 // Return interpolated object properties
@@ -59,7 +59,7 @@ export const interpolateFrame = (activeFrame: number, elementFrames: AnimationOb
     const frac = point / frameAmount;
     const lerp = (x: number, y: number): number => { return x * (1 - frac) + y * frac };
 
-    let interpolatedFrame: AnimProp = {
+    let interpolatedFrame: AnimAttributes = {
         position: [0, 0],
         scale: [0, 0],
         rotation: 0,

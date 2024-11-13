@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import AnimElement from './animUI/AnimElement';
-import { AnimationObj, AnimProp } from '../types/element-properties';
+import { AnimationObj, AnimAttributes } from '../types/element-properties';
 import { CANVAS_WIDTH, CANVAS_HEIGHT } from '../types/globals';
 
 /* Testing values (placeholder animation data) 
@@ -62,18 +62,24 @@ const Stage = () => {
             - More popular with traditional 2D animation tools
         */
     // Use the hover state to test out animation interpolation:
-    const hoveredFrame: number = useSelector<RootState, number>(state => state.frame.hovered)
+    const hoveredFrame: number = useSelector<RootState, number>(state => state.frame.hovered);
+    const animMap = useSelector<RootState, AnimationObj>(state => state.frame.animationMap);
     const canvasRef = useRef<HTMLCanvasElement | null>(null)
 
     // TODO: Reimplement stage using a div as a square, instead of a canvas component (due to resolution issues)
     const [context, setContext] = useState<CanvasRenderingContext2D | null>(null);
 
+    // TODO add a default animation property to globals, in case it renders before store initiates
+    const [animProp, setAnim] = useState<AnimAttributes>(null);
+
     useEffect(() => {
-        setContext(canvasRef.current.getContext('2d'));
+        setContext(canvasRef?.current?.getContext('2d'));
     }, [])
 
     // Whenever user hovers over a frame, calculate interpolation based on animation properties and re render square
     useEffect(() => {
+        let currentFrameProperties = interpolateFrame(hoveredFrame, elementFrames);
+        setAnim(currentFrameProperties);
         if (!context) return;
         context.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
         const canvasElement= canvasRef.current!;
@@ -81,7 +87,7 @@ const Stage = () => {
 
         context.fillStyle = secondaryColour;
         
-        let currentFrameProperties = interpolateFrame(hoveredFrame,elementFrames)
+        
         context.fillStyle = "yellow";
 
         context.fillRect(currentFrameProperties.position[0], currentFrameProperties.position[0], currentFrameProperties.scale[0], currentFrameProperties.scale[1]);
@@ -90,10 +96,10 @@ const Stage = () => {
 
     return (
         <div data-test="Stage">
-            <canvas ref={canvasRef} width={CANVAS_WIDTH} height={CANVAS_HEIGHT} className="stageContainer" />
-            {/* <div className={styles.stageContainer}>
-                <AnimElement color={"yellow"}/>
-            </div> */}
+            {/* <canvas ref={canvasRef} width={CANVAS_WIDTH} height={CANVAS_HEIGHT} className="stageContainer" /> */}
+            <div className="stageContainer">
+                <AnimElement animProp={animProp} />
+            </div>
         </div>
     )
 }
