@@ -12,13 +12,14 @@ const AnimElement: React.FC<AnimProps> = ({animProp}) => {
 
     return (
     <div
-        className="bg-slate-500"
+        className="animElement bg-slate-500 "
         style={{
             backgroundColor: colour,
             width: scale[0],
             height: scale[1],
             left: position[0],
-            top: position[1]
+            top: position[1],
+            transform: `rotate(${rotation})`,
         }}
     >
     </div>

@@ -86,13 +86,13 @@
 ====  STAGE ELEMENTS ===*/
 
 .animElement {
-  width: 80px;
-  height: 80px;
+  display: absolute;
 }
 .stageContainer {
   background-color: var(--secondary-color);
   border-radius: var(--size-md);
-  width: 40%;
+  width: 1200px;
+  height: 200px;
   display: relative;
 }
 
