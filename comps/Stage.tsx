@@ -1,21 +1,9 @@
-import { interpolateFrame } from '../utils/interpolate';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
-import AnimElement from './animUI/AnimElement';
 import { AnimationObj, AnimAttributes } from '../types/element-properties';
-import { CANVAS_WIDTH, CANVAS_HEIGHT } from '../types/globals';
-
-/* Testing values (placeholder animation data) 
-** Square object:
- TODO Move element frames into the store */
-
-const elementFrames: AnimationObj = {
-    1: {position: [0, 0], scale: [1200, 900], rotation: 0, colour: "green"},
-    24: {position: [20, 0], scale: [130, 10], rotation: 0, colour: "green"},
-    60: {position: [23, 10], scale: [120, 10], rotation: 0, colour: "green"},
-    72: {position: [0, 0], scale: [10, 10], rotation: 0, colour: "green"}
-};
+import { interpolateFrame } from '../utils/interpolate';
+import AnimElement from './animUI/AnimElement';
 
 const Stage = () => {
     /* TODO:
@@ -64,17 +52,9 @@ const Stage = () => {
     // Use the hover state to test out animation interpolation:
     const hoveredFrame: number = useSelector<RootState, number>(state => state.frame.hovered);
     const animMap = useSelector<RootState, AnimationObj>(state => state.frame.animationMap);
-    const canvasRef = useRef<HTMLCanvasElement | null>(null)
-
-    // TODO: Reimplement stage using a div as a square, instead of a canvas component (due to resolution issues)
-    const [context, setContext] = useState<CanvasRenderingContext2D | null>(null);
 
     // TODO add a default animation property to globals, in case it renders before store initiates
     const [animProp, setAnim] = useState<AnimAttributes>(null);
-
-    useEffect(() => {
-        setContext(canvasRef?.current?.getContext('2d'));
-    }, [])
 
     // Whenever user hovers over a frame, calculate interpolation based on animation properties and re render square
     useEffect(() => {
@@ -82,10 +62,8 @@ const Stage = () => {
         setAnim(currentFrameProperties);
     }, [hoveredFrame, animMap])
 
-
     return (
         <div data-test="Stage">
-            {/* <canvas ref={canvasRef} width={CANVAS_WIDTH} height={CANVAS_HEIGHT} className="stageContainer" /> */}
             <div className="stageContainer">
                 <AnimElement animProp={animProp} />
             </div>

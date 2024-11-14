@@ -46,7 +46,6 @@
 }
 
 .keyFrame {
-  background-color: var(--primary-color);
   /*border: 1px solid var(--action-color);*/
   border-radius: 0.3rem;
   display: grid;
@@ -72,13 +71,6 @@
   border-bottom: 1.2rem solid var(--secondary-color);
   border-left: 0.1rem solid transparent;
   border-right: 0.1rem solid transparent;
-}
-
-.keyFrame:nth-child(1),
-.keyFrame:nth-child(50),
-.keyFrame:nth-child(100) {
-  background-color: var(--action-color);
-  border: var(--primary-color) 1px solid;
 }
 
 

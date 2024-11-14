@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import { AnimAttributes } from "../../types/element-properties";
 import { DEFAULT_ANIM_PROPS } from "../../types/globals";
 
@@ -12,7 +12,7 @@ const AnimElement: React.FC<AnimProps> = ({animProp}) => {
 
     return (
     <div
-        className="animElement bg-slate-500 "
+        className="animElement"
         style={{
             backgroundColor: colour,
             width: scale[0],

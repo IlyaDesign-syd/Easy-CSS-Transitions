@@ -4,8 +4,8 @@ import { setFrame } from "../redux/frameSlice";
 import { RootState } from "../redux/store";
 import { AnimationObj } from "../types/element-properties";
 
+
 const KeySlot = (props) => {
-    const [frameShows, setFrameShows] = useState(false);
     const dispatch = useDispatch();
 
     const animMap = useSelector<RootState, AnimationObj>(
@@ -16,39 +16,40 @@ const KeySlot = (props) => {
 
     const checkActive = () => {
         if (props.frameNumber in animMap) {
-        console.log(props.frameNumber);
-        setActive(true);
+            console.log(props.frameNumber);
+            setActive(true);
         } else {
-        setActive(false);
+            setActive(false);
         }
     };
 
     const handleHover = () => {
         dispatch(setFrame(props.frameNumber));
-        setFrameShows(true);
     };
-
+    
     useEffect(() => {
         checkActive();
     }, [animMap, props.frameNumber]);
+    
+    const RenderActive = (): JSX.Element => {
+        return (
+        <div className="keyFrame bg-primary" onMouseEnter={() => handleHover()}>
+            <div className="keyDot"></div>
+        </div>
+        );
+    };
+
+    const RenderInactive = (): JSX.Element => {
+        return (
+        <div className="keyFrame bg-tertiary" onMouseEnter={() => handleHover()}>
+        </div>
+        );
+    };
+
 
     return (
         <>
-        {isActive ? (
-            <div
-            className="keyFrame"
-            onMouseEnter={() => handleHover()}
-            onMouseLeave={() => setFrameShows(false)}
-            >
-            <div className="keyDot"></div>
-            </div>
-        ) : (
-            <div
-            className="keyFrame"
-            onMouseEnter={() => handleHover()}
-            onMouseLeave={() => setFrameShows(false)}
-            ></div>
-        )}
+            {isActive ? RenderActive() : RenderInactive()}
         </>
     );
 };
