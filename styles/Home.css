@@ -92,7 +92,8 @@
 .stageContainer {
   background-color: var(--secondary-color);
   border-radius: var(--size-md);
-  width: 40%
+  width: 40%;
+  display: relative;
 }
 
 /*========================

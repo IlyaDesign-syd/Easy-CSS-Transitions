@@ -78,20 +78,9 @@ const Stage = () => {
 
     // Whenever user hovers over a frame, calculate interpolation based on animation properties and re render square
     useEffect(() => {
-        let currentFrameProperties = interpolateFrame(hoveredFrame, elementFrames);
+        let currentFrameProperties = interpolateFrame(hoveredFrame, animMap);
         setAnim(currentFrameProperties);
-        if (!context) return;
-        context.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-        const canvasElement= canvasRef.current!;
-        const secondaryColour = window.getComputedStyle(canvasElement).getPropertyValue("--secondary-color") || "#7b7b7b"
-
-        context.fillStyle = secondaryColour;
-        
-        
-        context.fillStyle = "yellow";
-
-        context.fillRect(currentFrameProperties.position[0], currentFrameProperties.position[0], currentFrameProperties.scale[0], currentFrameProperties.scale[1]);
-    }, [hoveredFrame])
+    }, [hoveredFrame, animMap])
 
 
     return (
