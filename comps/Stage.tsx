@@ -1,3 +1,4 @@
+'use client'
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
@@ -64,7 +65,7 @@ const Stage = () => {
 
     return (
         <div data-test="Stage">
-            <div className="stageContainer">
+            <div className="w-standardWidth h-standardHeight relative bg-secondary rounded-sizeSM">
                 <AnimElement animProp={animProp} />
             </div>
         </div>

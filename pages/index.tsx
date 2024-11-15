@@ -1,15 +1,16 @@
-//Components + assets:
+'use client'
+
+// Components + assets:
 import Stage from "../comps/Stage";
 import Timeline from "../comps/Timeline";
-//React and Redux Libraries:
+// React and Redux Libraries:
 import React, { useEffect, useRef } from "react";
-import { Provider, useSelector } from "react-redux";
-import store from '../redux/store';
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 
 const Home = () => {
-  // Number display for hovered frame
   const frameText = useRef(null);
-  const hoveredFrame = useSelector((state) => state.frame.hovered);
+  const hoveredFrame = useSelector<RootState, number>((state) => state.frame.hovered);
 
   // Resets the timer every time the user hovers over another frame, which displays the "frame hover" number
   useEffect(() => {
@@ -36,7 +37,7 @@ const Home = () => {
 
   return (
       <div className="appContainer">
-        <h1 data-testid="main-title" className="mainTitle">
+        <h1 data-testid="main-title" className="mainTitle" >
           CSS Transitions with Ease
         </h1>
 

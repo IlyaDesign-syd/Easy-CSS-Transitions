@@ -51,6 +51,7 @@
   display: grid;
   grid-template-rows: 3rem repeat(6, 1fr);
   padding: 0.1rem;
+  pointer-events: all;
 }
 
 .keyDot {
@@ -82,7 +83,7 @@
 }
 .stageContainer {
   background-color: var(--secondary-color);
-  border-radius: var(--size-md);
+  /* border-radius: var(--size-md); */
   width: 1200px;
   height: 200px;
   display: relative;
